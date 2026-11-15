@@ -68,11 +68,7 @@
   figure { margin: 0; }
   figure img { width: 100%; height: auto; display: block; background: #000;
            border: 1px solid var(--line); }
-  figcaption a.live { display: inline-block; margin-top: 8px; padding: 6px 16px;
-    border: 1px solid var(--line); color: var(--accent); text-decoration: none;
-    font-size: 13px; letter-spacing: 0.1em; }
-  figcaption a.live:hover { background:var(--btn-bg); color:var(--btn-ink); border-color:var(--btn-bg); }
-  figcaption { font-size: 14px; color: var(--muted); line-height: 1.8; letter-spacing: 0.04em;
+      figcaption { font-size: 14px; color: var(--muted); line-height: 1.8; letter-spacing: 0.04em;
                margin-top: 10px; }
   figcaption strong { color: var(--ink); }
   figcaption code { color: var(--accent); font-size: 13px; }
@@ -109,6 +105,9 @@
   .playbtn { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: rgba(13,7,8,.78); color: var(--accent); border: 1px solid var(--accent); padding: 8px 18px; font: inherit; font-size: 13px; letter-spacing: 0.14em; cursor: pointer; }
   .playbtn:hover { background: var(--btn-bg); color: var(--btn-ink); }
   .stopcatch { position: absolute; inset: 0; cursor: pointer; }
+
+  :root[data-theme="warmgray"] .playbtn { background: rgba(245,242,235,.88); color: #111110; border-color: #111110; }
+  :root[data-theme="warmgray"] .playbtn:hover { background: #111110; color: #F5F2EB; }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFQNW5T87Y"></script>
@@ -208,7 +207,6 @@
     var html = "<strong>Token #" + i + "</strong> <code>" + hash.slice(0, 10) + "&hellip;</code><br>";
     feats.forEach(function (f) { html += f.trait_type + ": " + f.value + "<br>"; });
     html += '<span class="rarity">Rarity score: ' + score.toFixed(2) + "</span><br>";
-    html += '<a class="live" href="token.html?hash=' + hash + '">View live</a>';
     cap.innerHTML = html;
 
     card.appendChild(wrap);
