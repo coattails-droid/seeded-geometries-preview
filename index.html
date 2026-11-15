@@ -102,6 +102,13 @@
   .lkf .socials a:hover { border-color: var(--accent); color: var(--accent); }
   .lkf .socials svg { width: 21px; height: 21px; fill: currentColor; }
   .lkf .fine { color: var(--muted); font-size: 13px; }
+
+  .playwrap { position: relative; aspect-ratio: 1; }
+  .playwrap img, .playwrap iframe { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; border: 1px solid var(--line); }
+  .playwrap iframe { background: #0e1016; }
+  .playbtn { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); background: rgba(13,7,8,.78); color: var(--accent); border: 1px solid var(--accent); padding: 8px 18px; font: inherit; font-size: 13px; letter-spacing: 0.14em; cursor: pointer; }
+  .playbtn:hover { background: var(--btn-bg); color: var(--btn-ink); }
+  .stopcatch { position: absolute; inset: 0; cursor: pointer; }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-QFQNW5T87Y"></script>
@@ -165,15 +172,37 @@
     var score = SGTraits.scoreRarity(population, SGTraits.deriveTraits(hash));
 
     var card = document.createElement("figure");
-    var link = document.createElement("a");
-    link.href = "token.html?hash=" + hash;
+    var wrap = document.createElement("div");
+    wrap.className = "playwrap";
     var img = document.createElement("img");
     img.src = "stills/token-" + i + ".webp";
     img.alt = "Seeded Geometries token #" + i;
     img.width = 540;
     img.height = 540;
     if (i > 0) img.loading = "lazy";
-    link.appendChild(img);
+    var btn = document.createElement("button");
+    btn.className = "playbtn";
+    btn.textContent = "\u25B6 PLAY LOOP";
+    btn.setAttribute("aria-label", "Play Seeded Geometries token #" + i + " live");
+    btn.addEventListener("click", function () {
+      var frame = document.createElement("iframe");
+      frame.src = "token.html?hash=" + hash;
+      frame.title = "Seeded Geometries token #" + i + " live";
+      var stopper = document.createElement("div");
+      stopper.className = "stopcatch";
+      stopper.title = "Click to stop";
+      stopper.setAttribute("aria-label", "Stop Seeded Geometries token #" + i);
+      stopper.addEventListener("click", function () {
+        wrap.innerHTML = "";
+        wrap.appendChild(img);
+        wrap.appendChild(btn);
+      });
+      wrap.innerHTML = "";
+      wrap.appendChild(frame);
+      wrap.appendChild(stopper);
+    });
+    wrap.appendChild(img);
+    wrap.appendChild(btn);
 
     var cap = document.createElement("figcaption");
     var html = "<strong>Token #" + i + "</strong> <code>" + hash.slice(0, 10) + "&hellip;</code><br>";
@@ -182,7 +211,7 @@
     html += '<a class="live" href="token.html?hash=' + hash + '">View live</a>';
     cap.innerHTML = html;
 
-    card.appendChild(link);
+    card.appendChild(wrap);
     card.appendChild(cap);
     gallery.appendChild(card);
   }
